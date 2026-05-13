@@ -9,7 +9,7 @@ export async function POST(req: Request) {
   }
 
   const response = NextResponse.json({ ok: true });
-  response.cookies.set('mashrika_admin', adminPassword, {
+  response.cookies.set('mashrika_admin', '1', {
     httpOnly: true,
     sameSite: 'lax',
     secure: process.env.NODE_ENV === 'production',

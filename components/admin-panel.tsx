@@ -43,7 +43,12 @@ export function AdminPanel() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(content)
     });
-    setMessage(res.ok ? 'Saved successfully' : 'Save failed');
+    if (res.ok) {
+      setMessage('Saved successfully');
+      return;
+    }
+    const body = (await res.json().catch(() => ({ message: 'Save failed' }))) as { message?: string };
+    setMessage(body.message || 'Save failed');
   };
 
   if (!content) {
