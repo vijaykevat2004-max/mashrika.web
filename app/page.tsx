@@ -43,7 +43,7 @@ export default function HomePage() {
 
   useEffect(() => {
     const load = async () => {
-      const res = await fetch('/api/content');
+      const res = await fetch('/api/content', { cache: 'no-store' });
       if (!res.ok) return;
       const data = (await res.json()) as SiteContent;
       setContent(data);

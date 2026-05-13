@@ -9,7 +9,7 @@ export function AdminPanel() {
   const [message, setMessage] = useState('');
 
   const loadContent = async () => {
-    const res = await fetch('/api/admin/content');
+    const res = await fetch('/api/admin/content', { cache: 'no-store' });
     if (!res.ok) {
       setContent(null);
       return;
@@ -97,8 +97,33 @@ export function AdminPanel() {
               services[idx].text = e.target.value;
               setContent({ ...content, services });
             }} />
+            <button
+              type="button"
+              className="justify-self-start rounded bg-red-600 px-3 py-2 text-sm font-semibold text-white"
+              onClick={() => {
+                const services = content.services.filter((_, i) => i !== idx);
+                setContent({ ...content, services });
+              }}
+            >
+              Remove Service
+            </button>
           </div>
         ))}
+        <button
+          type="button"
+          className="mt-4 rounded bg-slate-800 px-4 py-2 text-sm font-semibold text-white"
+          onClick={() => {
+            setContent({
+              ...content,
+              services: [
+                ...content.services,
+                { title: 'New Service', text: 'Service description', icon: 'settings' }
+              ]
+            });
+          }}
+        >
+          Add Service
+        </button>
       </section>
 
       <section className="rounded-xl border border-slate-300 bg-white p-5">
@@ -115,8 +140,30 @@ export function AdminPanel() {
               projects[idx].image = e.target.value;
               setContent({ ...content, projects });
             }} />
+            <button
+              type="button"
+              className="justify-self-start rounded bg-red-600 px-3 py-2 text-sm font-semibold text-white"
+              onClick={() => {
+                const projects = content.projects.filter((_, i) => i !== idx);
+                setContent({ ...content, projects });
+              }}
+            >
+              Remove Project
+            </button>
           </div>
         ))}
+        <button
+          type="button"
+          className="mt-4 rounded bg-slate-800 px-4 py-2 text-sm font-semibold text-white"
+          onClick={() => {
+            setContent({
+              ...content,
+              projects: [...content.projects, { title: 'New Project', image: '' }]
+            });
+          }}
+        >
+          Add Project
+        </button>
       </section>
 
       <section className="rounded-xl border border-slate-300 bg-white p-5">

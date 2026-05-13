@@ -2,10 +2,18 @@ import { NextResponse } from 'next/server';
 import { readSiteContent, writeSiteContent } from '@/lib/content-store';
 import { SiteContent } from '@/types/site';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 function isAuthed(req: Request) {
   const cookie = req.headers.get('cookie') || '';
   const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
-  return cookie.includes(`mashrika_admin=${adminPassword}`);
+  const pairs = cookie.split(';').map((part) => part.trim());
+  const entry = pairs.find((part) => part.startsWith('mashrika_admin='));
+  if (!entry) return false;
+  const raw = entry.split('=')[1] || '';
+  const value = decodeURIComponent(raw);
+  return value === adminPassword;
 }
 
 export async function GET(req: Request) {
