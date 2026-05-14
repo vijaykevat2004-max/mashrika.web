@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { addLead } from '@/lib/leads-store';
 import { InquiryLead } from '@/types/lead';
+import { sendLeadNotifications } from '@/lib/notify';
 
 export const dynamic = 'force-dynamic';
 
@@ -20,5 +21,6 @@ export async function POST(req: Request) {
   };
 
   await addLead(lead);
+  await sendLeadNotifications(lead);
   return NextResponse.json({ ok: true, message: 'Inquiry submitted successfully.' });
 }

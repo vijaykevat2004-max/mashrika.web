@@ -51,6 +51,23 @@ export function AdminPanel() {
     setMessage(body.message || 'Save failed');
   };
 
+  const uploadImage = async (file: File) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    const res = await fetch('/api/upload', {
+      method: 'POST',
+      body: formData
+    });
+    const body = (await res.json().catch(() => ({ message: 'Upload failed' }))) as {
+      url?: string;
+      message?: string;
+    };
+    if (!res.ok || !body.url) {
+      throw new Error(body.message || 'Upload failed');
+    }
+    return body.url;
+  };
+
   if (!content) {
     return (
       <div className="mx-auto max-w-xl rounded-2xl border border-slate-300 bg-white p-8">
@@ -81,6 +98,22 @@ export function AdminPanel() {
         <input className="mt-3 w-full rounded border px-3 py-2" value={content.hero.headline} onChange={(e) => setContent({ ...content, hero: { ...content.hero, headline: e.target.value } })} />
         <textarea className="mt-3 w-full rounded border px-3 py-2" value={content.hero.subheadline} onChange={(e) => setContent({ ...content, hero: { ...content.hero, subheadline: e.target.value } })} />
         <input className="mt-3 w-full rounded border px-3 py-2" value={content.hero.bgImage} onChange={(e) => setContent({ ...content, hero: { ...content.hero, bgImage: e.target.value } })} />
+        <input
+          type="file"
+          accept="image/*"
+          className="mt-3 block text-sm"
+          onChange={async (e) => {
+            const file = e.target.files?.[0];
+            if (!file) return;
+            try {
+              const url = await uploadImage(file);
+              setContent({ ...content, hero: { ...content.hero, bgImage: url } });
+              setMessage('Hero image uploaded. Save changes to publish.');
+            } catch (error) {
+              setMessage(error instanceof Error ? error.message : 'Upload failed');
+            }
+          }}
+        />
       </section>
 
       <section className="rounded-xl border border-slate-300 bg-white p-5">
@@ -145,6 +178,29 @@ export function AdminPanel() {
               projects[idx].image = e.target.value;
               setContent({ ...content, projects });
             }} />
+            <input className="rounded border px-3 py-2" placeholder="Project slug" value={item.slug || ''} onChange={(e) => {
+              const projects = [...content.projects];
+              projects[idx].slug = e.target.value;
+              setContent({ ...content, projects });
+            }} />
+            <input
+              type="file"
+              accept="image/*"
+              className="block text-sm"
+              onChange={async (e) => {
+                const file = e.target.files?.[0];
+                if (!file) return;
+                try {
+                  const url = await uploadImage(file);
+                  const projects = [...content.projects];
+                  projects[idx].image = url;
+                  setContent({ ...content, projects });
+                  setMessage('Project image uploaded. Save changes to publish.');
+                } catch (error) {
+                  setMessage(error instanceof Error ? error.message : 'Upload failed');
+                }
+              }}
+            />
             <button
               type="button"
               className="justify-self-start rounded bg-red-600 px-3 py-2 text-sm font-semibold text-white"
@@ -175,6 +231,100 @@ export function AdminPanel() {
           }}
         >
           Add Project
+        </button>
+      </section>
+
+      <section className="rounded-xl border border-slate-300 bg-white p-5">
+        <p className="font-semibold">Case Studies</p>
+        {content.caseStudies.map((item, idx) => (
+          <div key={`${item.slug}-${idx}`} className="mt-4 grid gap-2 rounded border p-3">
+            <input className="rounded border px-3 py-2" placeholder="Slug" value={item.slug} onChange={(e) => {
+              const caseStudies = [...content.caseStudies];
+              caseStudies[idx].slug = e.target.value;
+              setContent({ ...content, caseStudies });
+            }} />
+            <input className="rounded border px-3 py-2" placeholder="Title" value={item.title} onChange={(e) => {
+              const caseStudies = [...content.caseStudies];
+              caseStudies[idx].title = e.target.value;
+              setContent({ ...content, caseStudies });
+            }} />
+            <input className="rounded border px-3 py-2" placeholder="Client Type" value={item.clientType} onChange={(e) => {
+              const caseStudies = [...content.caseStudies];
+              caseStudies[idx].clientType = e.target.value;
+              setContent({ ...content, caseStudies });
+            }} />
+            <input className="rounded border px-3 py-2" placeholder="Location" value={item.location} onChange={(e) => {
+              const caseStudies = [...content.caseStudies];
+              caseStudies[idx].location = e.target.value;
+              setContent({ ...content, caseStudies });
+            }} />
+            <textarea className="rounded border px-3 py-2" placeholder="Scope (one per line)" value={item.scope.join('\n')} onChange={(e) => {
+              const caseStudies = [...content.caseStudies];
+              caseStudies[idx].scope = e.target.value.split('\n').map((line) => line.trim()).filter(Boolean);
+              setContent({ ...content, caseStudies });
+            }} />
+            <textarea className="rounded border px-3 py-2" placeholder="Outcomes (one per line)" value={item.outcomes.join('\n')} onChange={(e) => {
+              const caseStudies = [...content.caseStudies];
+              caseStudies[idx].outcomes = e.target.value.split('\n').map((line) => line.trim()).filter(Boolean);
+              setContent({ ...content, caseStudies });
+            }} />
+            <input className="rounded border px-3 py-2" placeholder="Image URL" value={item.image} onChange={(e) => {
+              const caseStudies = [...content.caseStudies];
+              caseStudies[idx].image = e.target.value;
+              setContent({ ...content, caseStudies });
+            }} />
+            <input
+              type="file"
+              accept="image/*"
+              className="block text-sm"
+              onChange={async (e) => {
+                const file = e.target.files?.[0];
+                if (!file) return;
+                try {
+                  const url = await uploadImage(file);
+                  const caseStudies = [...content.caseStudies];
+                  caseStudies[idx].image = url;
+                  setContent({ ...content, caseStudies });
+                  setMessage('Case study image uploaded. Save changes to publish.');
+                } catch (error) {
+                  setMessage(error instanceof Error ? error.message : 'Upload failed');
+                }
+              }}
+            />
+            <button
+              type="button"
+              className="justify-self-start rounded bg-red-600 px-3 py-2 text-sm font-semibold text-white"
+              onClick={() => {
+                const caseStudies = content.caseStudies.filter((_, i) => i !== idx);
+                setContent({ ...content, caseStudies });
+              }}
+            >
+              Remove Case Study
+            </button>
+          </div>
+        ))}
+        <button
+          type="button"
+          className="mt-4 rounded bg-slate-800 px-4 py-2 text-sm font-semibold text-white"
+          onClick={() => {
+            setContent({
+              ...content,
+              caseStudies: [
+                ...content.caseStudies,
+                {
+                  slug: `new-case-${content.caseStudies.length + 1}`,
+                  title: 'New Case Study',
+                  clientType: 'Industrial Client',
+                  location: 'India',
+                  scope: ['Scope item'],
+                  outcomes: ['Outcome item'],
+                  image: content.projects[0]?.image || content.hero.bgImage
+                }
+              ]
+            });
+          }}
+        >
+          Add Case Study
         </button>
       </section>
 
