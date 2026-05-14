@@ -163,7 +163,14 @@ export function AdminPanel() {
           onClick={() => {
             setContent({
               ...content,
-              projects: [...content.projects, { title: 'New Project', image: '' }]
+              projects: [
+                ...content.projects,
+                {
+                  title: 'New Project',
+                  image:
+                    'https://images.unsplash.com/photo-1581093196277-9f608bb3b5c9?auto=format&fit=crop&w=1200&q=80'
+                }
+              ]
             });
           }}
         >

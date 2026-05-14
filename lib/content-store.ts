@@ -2,6 +2,7 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import siteContent from '@/data/site-content.json';
 import { SiteContent } from '@/types/site';
+import { normalizeSiteContent } from '@/lib/normalize-site-content';
 
 const contentPath = path.join(process.cwd(), 'data', 'site-content.json');
 const KV_KEY = 'mashrika:site-content';
@@ -60,14 +61,14 @@ async function kvSet<T>(key: string, value: T) {
 export async function readSiteContent(): Promise<SiteContent> {
   if (canUseKv()) {
     const value = await kvGet<SiteContent>(KV_KEY);
-    if (value) return value;
+    if (value) return normalizeSiteContent(value);
   }
 
   try {
     const raw = await fs.readFile(contentPath, 'utf8');
-    return JSON.parse(raw) as SiteContent;
+    return normalizeSiteContent(JSON.parse(raw) as SiteContent);
   } catch {
-    return siteContent as SiteContent;
+    return normalizeSiteContent(siteContent as SiteContent);
   }
 }
 
