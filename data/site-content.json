@@ -1,7 +1,7 @@
 {
   "brandName": "Mashrika Projects",
   "hero": {
-    "headline": "Engineering Industrial Excellence",
+    "headline": "Turnkey HVAC, Electrical & Automation Solutions for Modern Industries",
     "subheadline": "20+ Years of Expertise in HVAC, Industrial Automation & Turnkey Engineering Solutions",
     "bgImage": "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=2400&q=80"
   },
@@ -59,6 +59,7 @@
     "Data Centers",
     "Hospitals",
     "Warehouses",
+    "Chemical Plants",
     "Food Processing Units",
     "Clean Rooms"
   ],
@@ -72,27 +73,47 @@
     {
       "title": "HVAC Installations",
       "slug": "pharma-hvac-commissioning",
-      "image": "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=1400&q=80"
+      "image": "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=1400&q=80",
+      "location": "Hyderabad",
+      "timeline": "45 Days",
+      "metric": "80 TR",
+      "technologies": ["AHU", "BMS", "Cleanroom HVAC"]
     },
     {
       "title": "Industrial Ducting",
       "slug": "manufacturing-ducting-upgrade",
-      "image": "https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?auto=format&fit=crop&w=1400&q=80"
+      "image": "https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?auto=format&fit=crop&w=1400&q=80",
+      "location": "Pune",
+      "timeline": "60 Days",
+      "metric": "12000 CFM",
+      "technologies": ["GI Ducting", "Insulation", "Balancing"]
     },
     {
       "title": "Electrical Panels",
       "slug": "ht-lt-panel-modernization",
-      "image": "https://images.unsplash.com/photo-1593941707882-a56bbc8df92e?auto=format&fit=crop&w=1400&q=80"
+      "image": "https://images.unsplash.com/photo-1593941707882-a56bbc8df92e?auto=format&fit=crop&w=1400&q=80",
+      "location": "Navi Mumbai",
+      "timeline": "30 Days",
+      "metric": "11kV",
+      "technologies": ["HT Panel", "Protection Relay", "Transformers"]
     },
     {
       "title": "Automation Systems",
       "slug": "plc-vfd-line-automation",
-      "image": "https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?auto=format&fit=crop&w=1400&q=80"
+      "image": "https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?auto=format&fit=crop&w=1400&q=80",
+      "location": "Ahmedabad",
+      "timeline": "35 Days",
+      "metric": "6 Lines",
+      "technologies": ["PLC", "VFD", "SCADA"]
     },
     {
       "title": "Plant Maintenance Work",
       "slug": "multi-plant-amc-reliability",
-      "image": "https://images.unsplash.com/photo-1581092921461-eab10380d0df?auto=format&fit=crop&w=1400&q=80"
+      "image": "https://images.unsplash.com/photo-1581092921461-eab10380d0df?auto=format&fit=crop&w=1400&q=80",
+      "location": "PAN India",
+      "timeline": "Annual AMC",
+      "metric": "24/7",
+      "technologies": ["Predictive Maintenance", "Breakdown Support", "Compliance Checks"]
     }
   ],
   "caseStudies": [

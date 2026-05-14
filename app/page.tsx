@@ -10,6 +10,7 @@ import {
   ChevronRight,
   Cpu,
   Drill,
+  FileCheck2,
   FlaskConical,
   Factory,
   Fan,
@@ -19,6 +20,7 @@ import {
   MapPin,
   Phone,
   ServerCog,
+  Shield,
   Settings,
   ShieldCheck,
   Sparkles,
@@ -45,6 +47,8 @@ const iconMap = {
 
 export default function HomePage() {
   const [content, setContent] = useState<SiteContent>(defaultContent as SiteContent);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState('about');
 
   useEffect(() => {
     const load = async () => {
@@ -56,7 +60,36 @@ export default function HomePage() {
     void load();
   }, []);
 
-  const [formData, setFormData] = useState({ name: '', email: '', phone: '', requirement: '' });
+  useEffect(() => {
+    const onScroll = () => {
+      const y = window.scrollY;
+      setIsScrolled(y > 30);
+      const ids = ['about', 'services', 'industries', 'projects', 'contact'];
+      for (const id of ids) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+        const rect = el.getBoundingClientRect();
+        if (rect.top <= 140 && rect.bottom >= 140) {
+          setActiveSection(id);
+          break;
+        }
+      }
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    requirement: '',
+    projectType: '',
+    budgetRange: '',
+    timeline: '',
+    attachmentName: ''
+  });
   const [formMessage, setFormMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -72,7 +105,16 @@ export default function HomePage() {
     const payload = (await res.json().catch(() => ({ message: 'Submission failed.' }))) as { message?: string };
     setFormMessage(payload.message || (res.ok ? 'Inquiry submitted.' : 'Submission failed.'));
     if (res.ok) {
-      setFormData({ name: '', email: '', phone: '', requirement: '' });
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        requirement: '',
+        projectType: '',
+        budgetRange: '',
+        timeline: '',
+        attachmentName: ''
+      });
     }
     setIsSubmitting(false);
   };
@@ -83,11 +125,16 @@ export default function HomePage() {
     <main className="dark:bg-ink dark:text-slate-100">
       <div className="fixed inset-0 -z-10 bg-[linear-gradient(rgba(255,255,255,.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.03)_1px,transparent_1px)] bg-[size:60px_60px] dark:opacity-30" />
 
-      <header className="sticky top-0 z-50 border-b border-slate-200/70 bg-white/90 backdrop-blur dark:border-slate-800 dark:bg-slate-950/85">
+      <header className={`sticky top-0 z-50 transition ${isScrolled ? 'border-b border-slate-200/70 bg-white/90 backdrop-blur dark:border-slate-800 dark:bg-slate-950/85' : 'bg-transparent'}`}>
         <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
           <div className="font-[family-name:var(--font-display)] text-xl font-semibold">{content.brandName}</div>
           <div className="hidden items-center gap-7 text-sm font-medium lg:flex">
-            <a href="#about" className="transition hover:text-accent">About</a>
+            {['about', 'services', 'industries', 'projects', 'contact'].map((id) => (
+              <a key={id} href={`#${id}`} className={`relative pb-1 capitalize transition hover:text-accent ${activeSection === id ? 'text-accent' : ''}`}>
+                {id}
+                {activeSection === id ? <span className="absolute -bottom-0 left-0 h-0.5 w-full bg-accent" /> : null}
+              </a>
+            ))}
             <div className="group relative">
               <button className="transition hover:text-accent">Solutions</button>
               <div className="invisible absolute left-1/2 top-9 z-20 w-[680px] -translate-x-1/2 rounded-2xl border border-slate-200 bg-white p-6 opacity-0 shadow-premium transition group-hover:visible group-hover:opacity-100 dark:border-slate-800 dark:bg-slate-950">
@@ -101,14 +148,11 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
-            <a href="#industries" className="transition hover:text-accent">Industries</a>
-            <a href="#projects" className="transition hover:text-accent">Projects</a>
-            <a href="#contact" className="transition hover:text-accent">Contact</a>
           </div>
           <div className="flex items-center gap-3">
             <ThemeToggle />
             <a href="#contact" className="rounded-full bg-primary px-4 py-2 text-sm text-white transition hover:bg-accent">
-              Request Consultation
+              Get Quote
             </a>
           </div>
         </nav>
@@ -126,6 +170,16 @@ export default function HomePage() {
           className="-z-10 object-cover"
           priority
         />
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 -z-20 h-full w-full object-cover opacity-35"
+          poster={content.hero.bgImage}
+        >
+          <source src="https://cdn.coverr.co/videos/coverr-power-plant-1579/1080p.mp4" type="video/mp4" />
+        </video>
         <div className="relative mx-auto grid min-h-[84vh] max-w-7xl items-center px-6 py-20 lg:grid-cols-2 lg:gap-14">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
             <p className="mb-4 inline-flex items-center rounded-full border border-white/30 px-4 py-2 text-xs uppercase tracking-[0.2em]">
@@ -180,6 +234,21 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section className="mx-auto max-w-7xl px-6 py-10">
+        <div className="grid gap-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-premium dark:border-slate-800 dark:bg-slate-900 lg:grid-cols-4">
+          {[
+            ['ISO Standard Execution', FileCheck2],
+            ['Industrial Safety Compliance', Shield],
+            ['Warranty-Backed Delivery', BadgeCheck],
+            ['Trusted Engineering Partner', Handshake]
+          ].map(([text, Icon]) => (
+            <div key={text as string} className="inline-flex items-center gap-2 text-sm font-semibold">
+              <Icon size={16} className="text-accent" /> {text as string}
+            </div>
+          ))}
+        </div>
+      </section>
+
       <section className="mx-auto max-w-7xl px-6 py-16">
         <div className="grid gap-5 lg:grid-cols-3">
           <motion.article whileHover={{ y: -4 }} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-premium dark:border-slate-800 dark:bg-slate-900">
@@ -228,8 +297,9 @@ export default function HomePage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.08 }}
-                className="group rounded-2xl border border-slate-200 bg-white p-6 transition hover:-translate-y-1 hover:border-accent hover:shadow-premium dark:border-slate-800 dark:bg-slate-950"
+                className="group relative rounded-2xl border border-slate-200 bg-gradient-to-br from-white to-slate-50 p-6 transition hover:-translate-y-1 hover:border-accent hover:shadow-premium dark:border-slate-800 dark:bg-gradient-to-br dark:from-slate-950 dark:to-slate-900"
               >
+                <span className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent to-transparent opacity-0 transition group-hover:opacity-100" />
                 <Icon className="mb-4 text-primary transition group-hover:text-accent" />
                 <h3 className="text-xl font-semibold">{title}</h3>
                 <p className="mt-3 text-slate-600 dark:text-slate-300">{text}</p>
@@ -296,7 +366,7 @@ export default function HomePage() {
         <h2 className="font-[family-name:var(--font-display)] text-3xl font-semibold md:text-4xl">Industries We Serve</h2>
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {content.industries.map((item) => (
-            <div key={item} className="rounded-xl border border-slate-200 bg-white p-5 font-medium dark:border-slate-800 dark:bg-slate-900">
+            <div key={item} className="rounded-xl border border-slate-200 bg-white p-5 font-medium transition hover:-translate-y-1 hover:border-accent hover:shadow-premium dark:border-slate-800 dark:bg-slate-900">
               {item}
             </div>
           ))}
@@ -320,7 +390,7 @@ export default function HomePage() {
       <section id="projects" className="mx-auto max-w-7xl px-6 py-20">
         <h2 className="font-[family-name:var(--font-display)] text-3xl font-semibold md:text-4xl">Project Showcase</h2>
         <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {content.projects.map(({ title, image, slug }, idx) => (
+          {content.projects.map(({ title, image, slug, location, metric, timeline, technologies }, idx) => (
             <article key={title} className="group overflow-hidden rounded-2xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
               <div className="relative h-56">
                 <Image
@@ -337,6 +407,12 @@ export default function HomePage() {
               <div className="p-5">
                 <h3 className="font-semibold">{title}</h3>
                 <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">Executed with industrial safety, compliance, and commissioning protocols.</p>
+                <div className="mt-3 grid grid-cols-3 gap-2 text-xs">
+                  <span className="rounded bg-slate-100 px-2 py-1 dark:bg-slate-800">{metric || 'Industrial Grade'}</span>
+                  <span className="rounded bg-slate-100 px-2 py-1 dark:bg-slate-800">{timeline || 'Timeline'}</span>
+                  <span className="rounded bg-slate-100 px-2 py-1 dark:bg-slate-800">{location || 'India'}</span>
+                </div>
+                <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">{(technologies || []).slice(0, 3).join(' • ')}</p>
                 {slug ? (
                   <Link href={`/projects/${slug}`} className="mt-3 inline-flex text-sm font-semibold text-accent">
                     View Case Study
@@ -402,6 +478,32 @@ export default function HomePage() {
               <input required type="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="rounded-lg border border-slate-300 px-4 py-3 dark:border-slate-700 dark:bg-slate-950" placeholder="Email Address" />
               <input required value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} className="rounded-lg border border-slate-300 px-4 py-3 dark:border-slate-700 dark:bg-slate-950" placeholder="Phone Number" />
               <textarea required value={formData.requirement} onChange={(e) => setFormData({ ...formData, requirement: e.target.value })} className="h-32 rounded-lg border border-slate-300 px-4 py-3 dark:border-slate-700 dark:bg-slate-950" placeholder="Project Requirement" />
+              <select className="rounded-lg border border-slate-300 px-4 py-3 dark:border-slate-700 dark:bg-slate-950" onChange={(e) => setFormData({ ...formData, projectType: e.target.value })}>
+                <option value="">Project Type</option>
+                <option>HVAC</option>
+                <option>Industrial Piping</option>
+                <option>Electrical Infrastructure</option>
+                <option>Automation</option>
+                <option>Turnkey Engineering</option>
+              </select>
+              <select className="rounded-lg border border-slate-300 px-4 py-3 dark:border-slate-700 dark:bg-slate-950" onChange={(e) => setFormData({ ...formData, budgetRange: e.target.value })}>
+                <option value="">Budget Range</option>
+                <option>Below 25 Lakhs</option>
+                <option>25 Lakhs - 1 Crore</option>
+                <option>1 Crore - 5 Crore</option>
+                <option>Above 5 Crore</option>
+              </select>
+              <select className="rounded-lg border border-slate-300 px-4 py-3 dark:border-slate-700 dark:bg-slate-950" onChange={(e) => setFormData({ ...formData, timeline: e.target.value })}>
+                <option value="">Execution Timeline</option>
+                <option>Immediate</option>
+                <option>Within 1 Month</option>
+                <option>1-3 Months</option>
+                <option>3+ Months</option>
+              </select>
+              <input type="file" className="rounded-lg border border-slate-300 px-4 py-3 text-sm dark:border-slate-700 dark:bg-slate-950" onChange={(e) => {
+                const file = e.target.files?.[0];
+                setFormData({ ...formData, attachmentName: file?.name || '' });
+              }} />
               <button disabled={isSubmitting} className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-5 py-3 font-semibold text-white transition hover:bg-accent disabled:cursor-not-allowed disabled:opacity-70">
                 Submit Inquiry <ChevronRight size={16} />
               </button>

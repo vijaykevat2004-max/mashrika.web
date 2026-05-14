@@ -37,7 +37,11 @@ export function normalizeSiteContent(input: Partial<SiteContent> | null | undefi
         ? source.projects.map((item) => ({
             title: item.title || 'Project',
             image: item.image || fallback.projects[0].image,
-            slug: item.slug
+            slug: item.slug,
+            location: item.location || 'India',
+            timeline: item.timeline || 'Execution Timeline',
+            metric: item.metric || 'Industrial Grade',
+            technologies: item.technologies && item.technologies.length > 0 ? item.technologies : ['Turnkey Execution']
           }))
         : fallback.projects,
     caseStudies:

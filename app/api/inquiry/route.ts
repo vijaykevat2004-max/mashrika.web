@@ -17,6 +17,10 @@ export async function POST(req: Request) {
     email: body.email.trim(),
     phone: body.phone.trim(),
     requirement: body.requirement.trim(),
+    projectType: body.projectType?.trim(),
+    budgetRange: body.budgetRange?.trim(),
+    timeline: body.timeline?.trim(),
+    attachmentName: body.attachmentName?.trim(),
     createdAt: new Date().toISOString()
   };
 

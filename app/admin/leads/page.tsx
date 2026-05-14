@@ -35,7 +35,9 @@ export default function AdminLeadsPage() {
             <article key={lead.id} className="rounded-xl border border-slate-200 p-4">
               <p className="font-semibold">{lead.name}</p>
               <p className="text-sm text-slate-600">{lead.email} | {lead.phone}</p>
+              <p className="mt-1 text-xs text-slate-500">{lead.projectType || 'General Inquiry'} | {lead.budgetRange || 'Budget N/A'} | {lead.timeline || 'Timeline N/A'}</p>
               <p className="mt-2 text-sm">{lead.requirement}</p>
+              {lead.attachmentName ? <p className="mt-1 text-xs text-slate-500">Attachment: {lead.attachmentName}</p> : null}
               <p className="mt-2 text-xs text-slate-500">{new Date(lead.createdAt).toLocaleString()}</p>
             </article>
           ))}

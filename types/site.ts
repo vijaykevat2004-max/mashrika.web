@@ -18,7 +18,15 @@ export type SiteContent = {
   services: ServiceItem[];
   industries: string[];
   counters: Array<{ value: string; label: string }>;
-  projects: Array<{ title: string; image: string; slug?: string }>;
+  projects: Array<{
+    title: string;
+    image: string;
+    slug?: string;
+    location?: string;
+    timeline?: string;
+    metric?: string;
+    technologies?: string[];
+  }>;
   caseStudies: Array<{
     slug: string;
     title: string;
