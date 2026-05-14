@@ -28,7 +28,12 @@ export async function PUT(req: Request) {
     return NextResponse.json({ ok: false, message: 'Unauthorized. Please login again.' }, { status: 401 });
   }
 
-  const payload = (await req.json()) as SiteContent;
-  await writeSiteContent(payload);
-  return NextResponse.json({ ok: true });
+  try {
+    const payload = (await req.json()) as SiteContent;
+    await writeSiteContent(payload);
+    return NextResponse.json({ ok: true });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Save failed';
+    return NextResponse.json({ ok: false, message }, { status: 500 });
+  }
 }
