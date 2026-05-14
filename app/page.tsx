@@ -8,6 +8,7 @@ import {
   Building2,
   ChevronRight,
   Cpu,
+  FlaskConical,
   Factory,
   Fan,
   Handshake,
@@ -15,6 +16,7 @@ import {
   Mail,
   MapPin,
   Phone,
+  ServerCog,
   Settings,
   ShieldCheck,
   Warehouse,
@@ -78,6 +80,8 @@ export default function HomePage() {
 
       <section className="relative overflow-hidden bg-mesh-grid text-white">
         <div className="absolute inset-0 bg-gradient-to-r from-ink/95 via-primary/85 to-primary/65" />
+        <div className="absolute -left-24 top-24 h-64 w-64 rounded-full bg-accent/20 blur-3xl" />
+        <div className="absolute bottom-0 right-0 h-72 w-72 rounded-full bg-cyan-400/10 blur-3xl" />
         <Image
           src={content.hero.bgImage}
           alt="Industrial automation and HVAC facility"
@@ -105,6 +109,37 @@ export default function HomePage() {
               </a>
             </div>
           </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="hidden lg:block"
+          >
+            <div className="rounded-3xl border border-white/20 bg-white/10 p-7 backdrop-blur">
+              <p className="text-xs uppercase tracking-[0.25em] text-slate-200">Performance Snapshot</p>
+              <div className="mt-6 grid gap-4 sm:grid-cols-2">
+                {content.counters.map(({ value, label }) => (
+                  <div key={label} className="rounded-xl border border-white/20 bg-ink/35 p-4">
+                    <p className="text-2xl font-bold text-accent"><Counter value={value} /></p>
+                    <p className="mt-1 text-xs text-slate-300">{label}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      <section className="border-y border-slate-200 bg-white/80 px-6 py-8 dark:border-slate-800 dark:bg-slate-950/70">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-6 text-sm font-semibold text-slate-500 dark:text-slate-300">
+          <p className="text-slate-700 dark:text-slate-100">Trusted Across Industrial Segments</p>
+          <div className="flex flex-wrap items-center gap-5">
+            <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 px-4 py-2 dark:border-slate-700"><FlaskConical size={15} /> Pharma Plants</span>
+            <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 px-4 py-2 dark:border-slate-700"><Factory size={15} /> Manufacturing</span>
+            <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 px-4 py-2 dark:border-slate-700"><ServerCog size={15} /> Data Centers</span>
+            <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 px-4 py-2 dark:border-slate-700"><Hospital size={15} /> Hospitals</span>
+          </div>
         </div>
       </section>
 
@@ -176,18 +211,23 @@ export default function HomePage() {
       <section id="projects" className="mx-auto max-w-7xl px-6 py-20">
         <h2 className="font-[family-name:var(--font-display)] text-3xl font-semibold md:text-4xl">Project Showcase</h2>
         <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {content.projects.map(({ title, image }) => (
-            <article key={title} className="overflow-hidden rounded-2xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
+          {content.projects.map(({ title, image }, idx) => (
+            <article key={title} className="group overflow-hidden rounded-2xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
               <div className="relative h-56">
                 <Image
                   src={image}
                   alt={title}
                   fill
-                  className="object-cover"
+                  className="object-cover transition duration-500 group-hover:scale-105"
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/20 to-transparent opacity-85" />
+                <div className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-primary">
+                  Project {idx + 1}
+                </div>
               </div>
               <div className="p-5">
                 <h3 className="font-semibold">{title}</h3>
+                <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">Executed with industrial safety, compliance, and commissioning protocols.</p>
               </div>
             </article>
           ))}

@@ -3,7 +3,7 @@
   "hero": {
     "headline": "Engineering Industrial Excellence",
     "subheadline": "20+ Years of Expertise in HVAC, Industrial Automation & Turnkey Engineering Solutions",
-    "bgImage": "https://images.unsplash.com/photo-1565514020179-026b92b84bb6?auto=format&fit=crop&w=2200&q=80"
+    "bgImage": "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=2400&q=80"
   },
   "about": {
     "text": "Mashrika Projects is a leading industrial engineering and turnkey solutions company delivering high-performance HVAC systems, industrial piping, automation, electrical infrastructure, and maintenance solutions across commercial and industrial sectors.",
@@ -71,23 +71,23 @@
   "projects": [
     {
       "title": "HVAC Installations",
-      "image": "https://images.unsplash.com/photo-1581093196277-9f608bb3b5c9?auto=format&fit=crop&w=1200&q=80"
+      "image": "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=1400&q=80"
     },
     {
       "title": "Industrial Ducting",
-      "image": "https://images.unsplash.com/photo-1531058020387-3be344556be6?auto=format&fit=crop&w=1200&q=80"
+      "image": "https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?auto=format&fit=crop&w=1400&q=80"
     },
     {
       "title": "Electrical Panels",
-      "image": "https://images.unsplash.com/photo-1565514020179-026b92b84bb6?auto=format&fit=crop&w=1200&q=80"
+      "image": "https://images.unsplash.com/photo-1593941707882-a56bbc8df92e?auto=format&fit=crop&w=1400&q=80"
     },
     {
       "title": "Automation Systems",
-      "image": "https://images.unsplash.com/photo-1581091870622-2f0d437117f5?auto=format&fit=crop&w=1200&q=80"
+      "image": "https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?auto=format&fit=crop&w=1400&q=80"
     },
     {
       "title": "Plant Maintenance Work",
-      "image": "https://images.unsplash.com/photo-1565043666747-69f6646db940?auto=format&fit=crop&w=1200&q=80"
+      "image": "https://images.unsplash.com/photo-1581092921461-eab10380d0df?auto=format&fit=crop&w=1400&q=80"
     }
   ],
   "testimonials": [
