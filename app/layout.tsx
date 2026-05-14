@@ -22,7 +22,17 @@ export const metadata: Metadata = {
     title: 'Mashrika Projects | Engineering Industrial Excellence',
     description:
       '20+ years of industrial engineering expertise in HVAC, automation, piping, and electrical turnkey execution.',
-    type: 'website'
+    type: 'website',
+    images: ['/og-industrial.svg']
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Mashrika Projects | Industrial Engineering',
+    description: 'Turnkey HVAC, electrical, automation, and industrial execution services.',
+    images: ['/og-industrial.svg']
+  },
+  icons: {
+    icon: '/favicon.svg'
   }
 };
 

@@ -163,6 +163,16 @@ export default function HomePage() {
         <div className="absolute -left-24 top-24 h-64 w-64 rounded-full bg-accent/20 blur-3xl" />
         <div className="absolute bottom-0 right-0 h-72 w-72 rounded-full bg-cyan-400/10 blur-3xl" />
         <div className="absolute inset-0 opacity-20 [background:repeating-linear-gradient(120deg,transparent_0,transparent_38px,rgba(255,255,255,.2)_39px,transparent_40px)]" />
+        <motion.div
+          className="absolute -right-24 top-10 h-72 w-72 rounded-full border border-white/20"
+          animate={{ rotate: 360 }}
+          transition={{ duration: 48, repeat: Infinity, ease: 'linear' }}
+        />
+        <motion.div
+          className="absolute -right-10 top-24 h-44 w-44 rounded-full border border-accent/40"
+          animate={{ rotate: -360 }}
+          transition={{ duration: 34, repeat: Infinity, ease: 'linear' }}
+        />
         <Image
           src={content.hero.bgImage}
           alt="Industrial automation and HVAC facility"
@@ -181,7 +191,7 @@ export default function HomePage() {
           <source src="https://cdn.coverr.co/videos/coverr-power-plant-1579/1080p.mp4" type="video/mp4" />
         </video>
         <div className="relative mx-auto grid min-h-[84vh] max-w-7xl items-center px-6 py-20 lg:grid-cols-2 lg:gap-14">
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1 }}>
             <p className="mb-4 inline-flex items-center rounded-full border border-white/30 px-4 py-2 text-xs uppercase tracking-[0.2em]">
               Industrial Engineering Specialists
             </p>
@@ -204,7 +214,7 @@ export default function HomePage() {
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            transition={{ duration: 1.1, delay: 0.25 }}
             className="hidden lg:block"
           >
             <div className="rounded-3xl border border-white/20 bg-white/10 p-7 backdrop-blur">
@@ -269,6 +279,24 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section className="mx-auto max-w-7xl px-6 pb-4">
+        <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-premium dark:border-slate-800 dark:bg-slate-900">
+          <div className="grid gap-px bg-slate-200 dark:bg-slate-800 md:grid-cols-4">
+            {[
+              ['Projects Completed', '120+'],
+              ['Industries Served', '15+'],
+              ['Engineers & Experts', '25+'],
+              ['Support Availability', '24/7']
+            ].map(([label, value]) => (
+              <div key={label} className="bg-white p-6 text-center dark:bg-slate-900">
+                <p className="text-3xl font-bold text-primary dark:text-accent">{value}</p>
+                <p className="mt-1 text-sm font-semibold text-slate-600 dark:text-slate-300">{label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section id="about" className="mx-auto max-w-7xl px-6 py-20">
         <h2 className="font-[family-name:var(--font-display)] text-3xl font-semibold md:text-4xl">About Company</h2>
         <p className="mt-5 max-w-4xl text-lg text-slate-700 dark:text-slate-300">
@@ -287,7 +315,7 @@ export default function HomePage() {
       <section id="services" className="bg-slate-100/80 px-6 py-20 dark:bg-slate-900/60">
         <div className="mx-auto max-w-7xl">
           <h2 className="font-[family-name:var(--font-display)] text-3xl font-semibold md:text-4xl">Services</h2>
-          <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {content.services.map(({ icon, title, text }, index) => {
               const Icon = iconMap[icon];
               return (
@@ -296,8 +324,8 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.08 }}
-                className="group relative rounded-2xl border border-slate-200 bg-gradient-to-br from-white to-slate-50 p-6 transition hover:-translate-y-1 hover:border-accent hover:shadow-premium dark:border-slate-800 dark:bg-gradient-to-br dark:from-slate-950 dark:to-slate-900"
+                transition={{ delay: index * 0.1, duration: 0.7 }}
+                className="group relative rounded-2xl border border-slate-200 bg-gradient-to-br from-white to-slate-50 p-7 transition hover:-translate-y-1 hover:border-accent hover:shadow-premium dark:border-slate-700 dark:bg-gradient-to-br dark:from-slate-950/95 dark:to-slate-900"
               >
                 <span className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent to-transparent opacity-0 transition group-hover:opacity-100" />
                 <Icon className="mb-4 text-primary transition group-hover:text-accent" />
@@ -358,6 +386,19 @@ export default function HomePage() {
                 transition={{ duration: 1.4 }}
               />
             </svg>
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-6 py-16">
+        <div className="rounded-3xl bg-gradient-to-r from-primary via-[#0f2948] to-[#10253f] p-10 text-white shadow-premium">
+          <p className="text-xs uppercase tracking-[0.22em] text-slate-300">Industrial Consultation Desk</p>
+          <h2 className="mt-3 font-[family-name:var(--font-display)] text-3xl font-semibold md:text-4xl">Ready to Build Reliable Industrial Infrastructure?</h2>
+          <p className="mt-4 max-w-3xl text-slate-200">Connect with our engineering team for site survey, system design, project planning, and lifecycle support.</p>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <a href="#contact" className="rounded-full bg-accent px-5 py-3 text-sm font-semibold text-white">Get Consultation</a>
+            <a href="#contact" className="rounded-full border border-white/40 px-5 py-3 text-sm font-semibold">Request Quotation</a>
+            <a href={whatsappUrl} className="rounded-full border border-white/40 px-5 py-3 text-sm font-semibold">Talk to Engineer</a>
           </div>
         </div>
       </section>
@@ -540,6 +581,11 @@ export default function HomePage() {
             >
               WhatsApp Support
             </Link>
+            <div className="mt-4 flex gap-3 text-sm">
+              <a href="https://www.linkedin.com" target="_blank" rel="noreferrer" className="hover:text-white">LinkedIn</a>
+              <a href="https://www.youtube.com" target="_blank" rel="noreferrer" className="hover:text-white">YouTube</a>
+              <a href="https://www.facebook.com" target="_blank" rel="noreferrer" className="hover:text-white">Facebook</a>
+            </div>
           </div>
         </div>
         <p className="mx-auto mt-10 max-w-7xl border-t border-slate-800 pt-5 text-sm">© {new Date().getFullYear()} {content.brandName}. All rights reserved.</p>
