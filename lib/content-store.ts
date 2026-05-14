@@ -36,26 +36,43 @@ function canUseKv() {
 
 async function kvGet<T>(key: string): Promise<T | null> {
   const { url, token } = getKvConfig();
-  const res = await fetch(`${url}/get/${encodeURIComponent(key)}`, {
+  const endpoint = url.endsWith('/') ? url.slice(0, -1) : url;
+  const res = await fetch(endpoint, {
+    method: 'POST',
     headers: { Authorization: `Bearer ${token}` },
+    body: JSON.stringify(['GET', key]),
     cache: 'no-store'
   });
   if (!res.ok) return null;
-  const data = (await res.json()) as { result?: T | null };
-  return data.result ?? null;
+  const data = (await res.json()) as { result?: unknown };
+  if (!data.result) return null;
+
+  if (typeof data.result === 'string') {
+    try {
+      return JSON.parse(data.result) as T;
+    } catch {
+      return null;
+    }
+  }
+
+  return data.result as T;
 }
 
 async function kvSet<T>(key: string, value: T) {
   const { url, token } = getKvConfig();
-  await fetch(`${url}/set/${encodeURIComponent(key)}`, {
+  const endpoint = url.endsWith('/') ? url.slice(0, -1) : url;
+  const res = await fetch(endpoint, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(value),
+    body: JSON.stringify(['SET', key, JSON.stringify(value)]),
     cache: 'no-store'
   });
+  if (!res.ok) {
+    throw new Error('Failed to write content to KV store.');
+  }
 }
 
 export async function readSiteContent(): Promise<SiteContent> {
