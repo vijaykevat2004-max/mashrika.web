@@ -71,23 +71,81 @@
   "projects": [
     {
       "title": "HVAC Installations",
+      "slug": "pharma-hvac-commissioning",
       "image": "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=1400&q=80"
     },
     {
       "title": "Industrial Ducting",
+      "slug": "manufacturing-ducting-upgrade",
       "image": "https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?auto=format&fit=crop&w=1400&q=80"
     },
     {
       "title": "Electrical Panels",
+      "slug": "ht-lt-panel-modernization",
       "image": "https://images.unsplash.com/photo-1593941707882-a56bbc8df92e?auto=format&fit=crop&w=1400&q=80"
     },
     {
       "title": "Automation Systems",
+      "slug": "plc-vfd-line-automation",
       "image": "https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?auto=format&fit=crop&w=1400&q=80"
     },
     {
       "title": "Plant Maintenance Work",
+      "slug": "multi-plant-amc-reliability",
       "image": "https://images.unsplash.com/photo-1581092921461-eab10380d0df?auto=format&fit=crop&w=1400&q=80"
+    }
+  ],
+  "caseStudies": [
+    {
+      "slug": "pharma-hvac-commissioning",
+      "title": "Pharma HVAC Clean Utility Commissioning",
+      "clientType": "Pharmaceutical Manufacturing Unit",
+      "location": "Hyderabad, India",
+      "scope": [
+        "AHU installation with pressure zoning for clean areas",
+        "GI/SS ducting with leakage-tested fabrication",
+        "Temperature and RH control integration"
+      ],
+      "outcomes": [
+        "Achieved stable RH and temperature tolerance in critical zones",
+        "Reduced utility deviations during batch operations",
+        "Delivered full commissioning and validation documentation"
+      ],
+      "image": "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=1600&q=80"
+    },
+    {
+      "slug": "manufacturing-ducting-upgrade",
+      "title": "Manufacturing Ducting and Air Distribution Retrofit",
+      "clientType": "Heavy Manufacturing Plant",
+      "location": "Pune, India",
+      "scope": [
+        "Legacy duct replacement under running production",
+        "Airflow balancing across process floors",
+        "Fire and insulation compliance upgrades"
+      ],
+      "outcomes": [
+        "Improved airflow consistency across production bays",
+        "Lowered dust-load and heat pockets in work zones",
+        "Completed works with minimal production disruption"
+      ],
+      "image": "https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?auto=format&fit=crop&w=1600&q=80"
+    },
+    {
+      "slug": "ht-lt-panel-modernization",
+      "title": "HT/LT Panel and Utility Electrical Modernization",
+      "clientType": "Commercial Utility Infrastructure",
+      "location": "Navi Mumbai, India",
+      "scope": [
+        "New panel architecture and load segregation",
+        "Transformer interfacing and protection logic",
+        "Cable tray routing and terminal standardization"
+      ],
+      "outcomes": [
+        "Higher power distribution reliability",
+        "Faster fault isolation and safer maintenance access",
+        "Improved audit and shutdown readiness"
+      ],
+      "image": "https://images.unsplash.com/photo-1593941707882-a56bbc8df92e?auto=format&fit=crop&w=1600&q=80"
     }
   ],
   "testimonials": [

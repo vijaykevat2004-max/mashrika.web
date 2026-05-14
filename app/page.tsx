@@ -6,8 +6,10 @@ import { motion } from 'framer-motion';
 import {
   BadgeCheck,
   Building2,
+  CircleCheckBig,
   ChevronRight,
   Cpu,
+  Drill,
   FlaskConical,
   Factory,
   Fan,
@@ -19,12 +21,13 @@ import {
   ServerCog,
   Settings,
   ShieldCheck,
+  Sparkles,
   Warehouse,
   Waves,
   Workflow,
   Wrench
 } from 'lucide-react';
-import { useEffect, useMemo, useState } from 'react';
+import { FormEvent, useEffect, useMemo, useState } from 'react';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Counter } from '@/components/counter';
 import { SiteContent } from '@/types/site';
@@ -53,6 +56,27 @@ export default function HomePage() {
     void load();
   }, []);
 
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '', requirement: '' });
+  const [formMessage, setFormMessage] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const submitInquiry = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsSubmitting(true);
+    setFormMessage('');
+    const res = await fetch('/api/inquiry', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData)
+    });
+    const payload = (await res.json().catch(() => ({ message: 'Submission failed.' }))) as { message?: string };
+    setFormMessage(payload.message || (res.ok ? 'Inquiry submitted.' : 'Submission failed.'));
+    if (res.ok) {
+      setFormData({ name: '', email: '', phone: '', requirement: '' });
+    }
+    setIsSubmitting(false);
+  };
+
   const whatsappUrl = useMemo(() => `https://wa.me/${content.contact.whatsapp}`, [content.contact.whatsapp]);
 
   return (
@@ -63,11 +87,23 @@ export default function HomePage() {
         <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
           <div className="font-[family-name:var(--font-display)] text-xl font-semibold">{content.brandName}</div>
           <div className="hidden items-center gap-7 text-sm font-medium lg:flex">
-            {['About', 'Services', 'Industries', 'Projects', 'Contact'].map((item) => (
-              <a key={item} href={`#${item.toLowerCase()}`} className="transition hover:text-accent">
-                {item}
-              </a>
-            ))}
+            <a href="#about" className="transition hover:text-accent">About</a>
+            <div className="group relative">
+              <button className="transition hover:text-accent">Solutions</button>
+              <div className="invisible absolute left-1/2 top-9 z-20 w-[680px] -translate-x-1/2 rounded-2xl border border-slate-200 bg-white p-6 opacity-0 shadow-premium transition group-hover:visible group-hover:opacity-100 dark:border-slate-800 dark:bg-slate-950">
+                <div className="grid grid-cols-2 gap-4">
+                  {content.services.slice(0, 6).map((service) => (
+                    <a key={service.title} href="#services" className="rounded-xl border border-slate-200 p-3 text-left transition hover:border-accent dark:border-slate-800">
+                      <p className="text-sm font-semibold">{service.title}</p>
+                      <p className="mt-1 text-xs text-slate-600 dark:text-slate-300">{service.text}</p>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <a href="#industries" className="transition hover:text-accent">Industries</a>
+            <a href="#projects" className="transition hover:text-accent">Projects</a>
+            <a href="#contact" className="transition hover:text-accent">Contact</a>
           </div>
           <div className="flex items-center gap-3">
             <ThemeToggle />
@@ -82,6 +118,7 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-r from-ink/95 via-primary/85 to-primary/65" />
         <div className="absolute -left-24 top-24 h-64 w-64 rounded-full bg-accent/20 blur-3xl" />
         <div className="absolute bottom-0 right-0 h-72 w-72 rounded-full bg-cyan-400/10 blur-3xl" />
+        <div className="absolute inset-0 opacity-20 [background:repeating-linear-gradient(120deg,transparent_0,transparent_38px,rgba(255,255,255,.2)_39px,transparent_40px)]" />
         <Image
           src={content.hero.bgImage}
           alt="Industrial automation and HVAC facility"
@@ -143,6 +180,26 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section className="mx-auto max-w-7xl px-6 py-16">
+        <div className="grid gap-5 lg:grid-cols-3">
+          <motion.article whileHover={{ y: -4 }} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-premium dark:border-slate-800 dark:bg-slate-900">
+            <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-accent"><Sparkles size={14} /> Engineering Depth</p>
+            <h3 className="mt-3 text-xl font-semibold">Design to Commissioning Under One Team</h3>
+            <p className="mt-3 text-slate-600 dark:text-slate-300">Single-window execution from concept drawings and BOQ planning to testing, balancing, and handover documentation.</p>
+          </motion.article>
+          <motion.article whileHover={{ y: -4 }} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-premium dark:border-slate-800 dark:bg-slate-900">
+            <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-accent"><Drill size={14} /> Site Reliability</p>
+            <h3 className="mt-3 text-xl font-semibold">Multi-Discipline Industrial Execution</h3>
+            <p className="mt-3 text-slate-600 dark:text-slate-300">HVAC, piping, electrical, controls and maintenance teams coordinated with strict permit-to-work and EHS protocols.</p>
+          </motion.article>
+          <motion.article whileHover={{ y: -4 }} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-premium dark:border-slate-800 dark:bg-slate-900">
+            <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-accent"><CircleCheckBig size={14} /> Compliance First</p>
+            <h3 className="mt-3 text-xl font-semibold">Audit-Ready Documentation and Quality</h3>
+            <p className="mt-3 text-slate-600 dark:text-slate-300">Welding logs, pressure tests, FAT/SAT records, and commissioning reports prepared to client and regulatory standards.</p>
+          </motion.article>
+        </div>
+      </section>
+
       <section id="about" className="mx-auto max-w-7xl px-6 py-20">
         <h2 className="font-[family-name:var(--font-display)] text-3xl font-semibold md:text-4xl">About Company</h2>
         <p className="mt-5 max-w-4xl text-lg text-slate-700 dark:text-slate-300">
@@ -183,6 +240,58 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section className="bg-gradient-to-br from-primary to-ink px-6 py-20 text-white">
+        <div className="mx-auto max-w-7xl">
+          <h2 className="font-[family-name:var(--font-display)] text-3xl font-semibold md:text-4xl">Execution Framework</h2>
+          <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            {[
+              ['01', 'Engineering Survey', 'Load study, utility mapping, and process requirement capture.'],
+              ['02', 'Detailed Planning', 'Design review, fabrication strategy, and delivery milestones.'],
+              ['03', 'Site Execution', 'Disciplined installation with QA/QC checks at every stage.'],
+              ['04', 'Commissioning', 'Testing, performance validation, training, and handover.']
+            ].map(([step, title, text]) => (
+              <article key={step} className="rounded-2xl border border-white/20 bg-white/10 p-6 backdrop-blur">
+                <p className="text-sm font-bold text-accent">{step}</p>
+                <h3 className="mt-2 text-lg font-semibold">{title}</h3>
+                <p className="mt-2 text-sm text-slate-200">{text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-slate-950 px-6 py-20 text-white">
+        <div className="mx-auto max-w-7xl">
+          <h2 className="font-[family-name:var(--font-display)] text-3xl font-semibold md:text-4xl">Smart Utility Flow Diagram</h2>
+          <p className="mt-3 max-w-3xl text-slate-300">Interactive view of how Mashrika integrates utility systems, controls, and site execution for stable plant operations.</p>
+          <div className="mt-10 rounded-2xl border border-slate-800 bg-slate-900 p-6">
+            <svg viewBox="0 0 1200 260" className="w-full">
+              {[130, 390, 650, 910].map((x, index) => (
+                <g key={x}>
+                  <rect x={x - 110} y={85} width="220" height="90" rx="14" fill="#0f243f" stroke="#2a3f59" />
+                  <text x={x} y={120} textAnchor="middle" fill="#f8fafc" fontSize="16" fontWeight="700">
+                    {['Design', 'Fabrication', 'Installation', 'Commissioning'][index]}
+                  </text>
+                  <text x={x} y={145} textAnchor="middle" fill="#94a3b8" fontSize="12">
+                    {['Load study', 'QA welds', 'Site execution', 'Performance tests'][index]}
+                  </text>
+                </g>
+              ))}
+              <motion.path
+                d="M240 130 H280 M500 130 H540 M760 130 H800"
+                stroke="#f47c20"
+                strokeWidth="4"
+                strokeLinecap="round"
+                initial={{ pathLength: 0 }}
+                whileInView={{ pathLength: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.4 }}
+              />
+            </svg>
+          </div>
+        </div>
+      </section>
+
       <section id="industries" className="mx-auto max-w-7xl px-6 py-20">
         <h2 className="font-[family-name:var(--font-display)] text-3xl font-semibold md:text-4xl">Industries We Serve</h2>
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -211,7 +320,7 @@ export default function HomePage() {
       <section id="projects" className="mx-auto max-w-7xl px-6 py-20">
         <h2 className="font-[family-name:var(--font-display)] text-3xl font-semibold md:text-4xl">Project Showcase</h2>
         <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {content.projects.map(({ title, image }, idx) => (
+          {content.projects.map(({ title, image, slug }, idx) => (
             <article key={title} className="group overflow-hidden rounded-2xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
               <div className="relative h-56">
                 <Image
@@ -228,6 +337,11 @@ export default function HomePage() {
               <div className="p-5">
                 <h3 className="font-semibold">{title}</h3>
                 <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">Executed with industrial safety, compliance, and commissioning protocols.</p>
+                {slug ? (
+                  <Link href={`/projects/${slug}`} className="mt-3 inline-flex text-sm font-semibold text-accent">
+                    View Case Study
+                  </Link>
+                ) : null}
               </div>
             </article>
           ))}
@@ -243,6 +357,24 @@ export default function HomePage() {
                 <Handshake className="mb-4 text-accent" />
                 <p className="text-slate-700 dark:text-slate-300">"{quote}"</p>
               </blockquote>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="relative overflow-hidden px-6 py-20">
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_10%_20%,rgba(244,124,32,.18),transparent_35%),radial-gradient(circle_at_90%_20%,rgba(12,36,64,.16),transparent_35%)]" />
+        <div className="mx-auto grid max-w-7xl items-center gap-10 rounded-3xl border border-slate-200 bg-white/85 p-10 shadow-premium backdrop-blur dark:border-slate-800 dark:bg-slate-950/80 lg:grid-cols-[1.2fr_.8fr]">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-accent">Industrial Confidence</p>
+            <h2 className="mt-3 font-[family-name:var(--font-display)] text-3xl font-semibold md:text-4xl">Built for Critical Facilities Where Downtime Is Not an Option</h2>
+            <p className="mt-4 max-w-3xl text-slate-600 dark:text-slate-300">From pharma process areas to high-load data center floors, Mashrika Projects delivers engineered systems with uptime-driven design, controlled execution, and long-term service commitment.</p>
+          </div>
+          <div className="grid gap-3">
+            {['GMP/Process Environment Familiarity', 'EHS-Compliant Site Execution', 'Experienced in Brownfield & Greenfield Projects', 'Rapid AMC Response with Technical Team'].map((item) => (
+              <div key={item} className="rounded-xl border border-slate-200 bg-white p-4 text-sm font-medium dark:border-slate-700 dark:bg-slate-900">
+                <span className="inline-flex items-center gap-2"><CircleCheckBig size={16} className="text-accent" /> {item}</span>
+              </div>
             ))}
           </div>
         </div>
@@ -264,15 +396,16 @@ export default function HomePage() {
               />
             </div>
           </div>
-          <form className="rounded-2xl border border-slate-200 bg-white p-6 shadow-premium dark:border-slate-800 dark:bg-slate-900">
+          <form onSubmit={submitInquiry} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-premium dark:border-slate-800 dark:bg-slate-900">
             <div className="grid gap-4">
-              <input className="rounded-lg border border-slate-300 px-4 py-3 dark:border-slate-700 dark:bg-slate-950" placeholder="Your Name" />
-              <input className="rounded-lg border border-slate-300 px-4 py-3 dark:border-slate-700 dark:bg-slate-950" placeholder="Email Address" />
-              <input className="rounded-lg border border-slate-300 px-4 py-3 dark:border-slate-700 dark:bg-slate-950" placeholder="Phone Number" />
-              <textarea className="h-32 rounded-lg border border-slate-300 px-4 py-3 dark:border-slate-700 dark:bg-slate-950" placeholder="Project Requirement" />
-              <button className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-5 py-3 font-semibold text-white transition hover:bg-accent">
+              <input required value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="rounded-lg border border-slate-300 px-4 py-3 dark:border-slate-700 dark:bg-slate-950" placeholder="Your Name" />
+              <input required type="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="rounded-lg border border-slate-300 px-4 py-3 dark:border-slate-700 dark:bg-slate-950" placeholder="Email Address" />
+              <input required value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} className="rounded-lg border border-slate-300 px-4 py-3 dark:border-slate-700 dark:bg-slate-950" placeholder="Phone Number" />
+              <textarea required value={formData.requirement} onChange={(e) => setFormData({ ...formData, requirement: e.target.value })} className="h-32 rounded-lg border border-slate-300 px-4 py-3 dark:border-slate-700 dark:bg-slate-950" placeholder="Project Requirement" />
+              <button disabled={isSubmitting} className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-5 py-3 font-semibold text-white transition hover:bg-accent disabled:cursor-not-allowed disabled:opacity-70">
                 Submit Inquiry <ChevronRight size={16} />
               </button>
+              {formMessage ? <p className="text-sm text-slate-600 dark:text-slate-300">{formMessage}</p> : null}
             </div>
           </form>
         </div>

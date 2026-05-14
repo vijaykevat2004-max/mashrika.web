@@ -36,9 +36,25 @@ export function normalizeSiteContent(input: Partial<SiteContent> | null | undefi
       source.projects && source.projects.length > 0
         ? source.projects.map((item) => ({
             title: item.title || 'Project',
-            image: item.image || fallback.projects[0].image
+            image: item.image || fallback.projects[0].image,
+            slug: item.slug
           }))
         : fallback.projects,
+    caseStudies:
+      source.caseStudies && source.caseStudies.length > 0
+        ? source.caseStudies.map((item, index) => ({
+            slug: item.slug || fallback.caseStudies[index]?.slug || `case-study-${index + 1}`,
+            title: item.title || 'Industrial Case Study',
+            clientType: item.clientType || 'Industrial Client',
+            location: item.location || 'India',
+            scope: item.scope && item.scope.length > 0 ? item.scope : ['Project scope available on request'],
+            outcomes:
+              item.outcomes && item.outcomes.length > 0
+                ? item.outcomes
+                : ['Improved reliability and execution quality'],
+            image: item.image || fallback.projects[0].image
+          }))
+        : fallback.caseStudies,
     testimonials:
       source.testimonials && source.testimonials.length > 0
         ? source.testimonials
