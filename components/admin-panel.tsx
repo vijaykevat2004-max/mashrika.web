@@ -97,7 +97,9 @@ export function AdminPanel() {
         <p className="font-semibold">Hero Section</p>
         <input className="mt-3 w-full rounded border px-3 py-2" value={content.hero.headline} onChange={(e) => setContent({ ...content, hero: { ...content.hero, headline: e.target.value } })} />
         <textarea className="mt-3 w-full rounded border px-3 py-2" value={content.hero.subheadline} onChange={(e) => setContent({ ...content, hero: { ...content.hero, subheadline: e.target.value } })} />
-        <input className="mt-3 w-full rounded border px-3 py-2" value={content.hero.bgImage} onChange={(e) => setContent({ ...content, hero: { ...content.hero, bgImage: e.target.value } })} />
+        <div className="mt-3 overflow-hidden rounded border border-slate-200">
+          <img src={content.hero.bgImage} alt="Hero preview" className="h-40 w-full object-cover" />
+        </div>
         <input
           type="file"
           accept="image/*"
@@ -114,6 +116,7 @@ export function AdminPanel() {
             }
           }}
         />
+        <p className="mt-2 text-xs text-slate-500">Upload image directly from device. No image URL required.</p>
       </section>
 
       <section className="rounded-xl border border-slate-300 bg-white p-5">
@@ -173,11 +176,9 @@ export function AdminPanel() {
               projects[idx].title = e.target.value;
               setContent({ ...content, projects });
             }} />
-            <input className="rounded border px-3 py-2" value={item.image} onChange={(e) => {
-              const projects = [...content.projects];
-              projects[idx].image = e.target.value;
-              setContent({ ...content, projects });
-            }} />
+            <div className="overflow-hidden rounded border border-slate-200">
+              <img src={item.image} alt={item.title} className="h-36 w-full object-cover" />
+            </div>
             <input className="rounded border px-3 py-2" placeholder="Project slug" value={item.slug || ''} onChange={(e) => {
               const projects = [...content.projects];
               projects[idx].slug = e.target.value;
@@ -268,11 +269,9 @@ export function AdminPanel() {
               caseStudies[idx].outcomes = e.target.value.split('\n').map((line) => line.trim()).filter(Boolean);
               setContent({ ...content, caseStudies });
             }} />
-            <input className="rounded border px-3 py-2" placeholder="Image URL" value={item.image} onChange={(e) => {
-              const caseStudies = [...content.caseStudies];
-              caseStudies[idx].image = e.target.value;
-              setContent({ ...content, caseStudies });
-            }} />
+            <div className="overflow-hidden rounded border border-slate-200">
+              <img src={item.image} alt={item.title} className="h-40 w-full object-cover" />
+            </div>
             <input
               type="file"
               accept="image/*"
